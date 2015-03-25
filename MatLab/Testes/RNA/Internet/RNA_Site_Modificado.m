@@ -1,13 +1,13 @@
 function scan(img)
-    pathName = 'C:\Users\Rafel\Documents\MatLab\Imagens\';
+    pathName = 'C:\Users\Rafel\Documents\GitHub\TCC\Database\Pessoa\';
     extensao = '*.pgm';
     files = dir(strcat(pathName,extensao));
     hist = [];
-    for n = 1 : length(files)
+    for n = 1 : 5 %length(files)
         filename = files(n).name;
         file = imread(strcat(pathName,filename));
 
-        hist = [hist, file]; %#ok
+        hist = [hist, imhist(file)]; %#ok
     end
 
     som = selforgmap([10 10]);
