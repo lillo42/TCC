@@ -69,15 +69,21 @@
   <ItemGroup>
     <ClCompile Include="Classificador.cpp" />
     <ClCompile Include="LBP.cpp" />
+    <ClCompile Include="LbpBase.cpp" />
     <ClCompile Include="LbpClassificaor.cpp" />
+    <ClCompile Include="LbpRN.cpp" />
     <ClCompile Include="Leitor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RedeNeural.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classificador.h" />
     <ClInclude Include="LBP.h" />
+    <ClInclude Include="LbpBase.h" />
     <ClInclude Include="LbpClassificaor.h" />
+    <ClInclude Include="LbpRN.h" />
     <ClInclude Include="Leitor.h" />
+    <ClInclude Include="RedeNeural.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

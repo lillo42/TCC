@@ -30,6 +30,15 @@
     <ClCompile Include="Leitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LbpBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedeNeural.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LbpRN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LBP.h">
@@ -42,6 +51,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Leitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LbpBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RedeNeural.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LbpRN.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

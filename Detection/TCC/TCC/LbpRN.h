@@ -20,25 +20,16 @@
 
 #include "Leitor.h"
 #include "LBP.h"
-#include "Classificador.h"
+#include "RedeNeural.h"
 #include "LbpBase.h"
 
 #pragma endregion
 
-
-using namespace cv;
-using namespace std;
-
-//struct detF {
-//	float predicao;     // Armazena a predicao, para comparare elimiar falsos positivos por distância
-//	Point ponto;        // Localizacao a Face
-//} typedef DetectFeatures;
-
-class LbpClassificaor : public LbpBase
+class LbpRN : public LbpBase
 {
 public:
-	LbpClassificaor();
-	~LbpClassificaor();
+	LbpRN();
+	~LbpRN();
 
 	void Treina();
 	bool AchouCaracteristica(Mat image, bool desenha);
@@ -48,7 +39,6 @@ protected:
 
 
 private:
-	Classificador boost;
-	
+	RedeNeural rn;
 };
 
