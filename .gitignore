@@ -3,6 +3,13 @@
 *.lo
 *.o
 *.obj
+*.pdb
+*.ilk
+*.tlog
+*.lastbuildstate
+*.log
+*.idb
+*.opensdf
 
 # Precompiled Headers
 *.gch
