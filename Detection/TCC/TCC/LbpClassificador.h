@@ -2,9 +2,10 @@
 
 #pragma region OpenCV
 
-#include <opencv\cv.h>
-#include <opencv\highgui.h>
-#include <opencv2\core\core.hpp>
+#include <opencv/cv.h>
+//#include <opencv2/opencv.hpp>
+#include <opencv/highgui.h>
+#include <opencv2/core/core.hpp>
 
 #pragma endregion
 
@@ -34,11 +35,11 @@ using namespace std;
 //	Point ponto;        // Localizacao a Face
 //} typedef DetectFeatures;
 
-class LbpClassificaor : public LbpBase
+class LbpClassificador : public LbpBase
 {
 public:
-	LbpClassificaor();
-	~LbpClassificaor();
+	LbpClassificador();
+	~LbpClassificador();
 
 	void Treina();
 	bool AchouCaracteristica(Mat image, bool desenha);

@@ -1,7 +1,7 @@
-#include "LbpClassificaor.h"
+#include "LbpClassificador.h"
 
 
-LbpClassificaor::LbpClassificaor()
+LbpClassificador::LbpClassificador()
 {
 	height = 32;
 	width = 36;
@@ -9,11 +9,11 @@ LbpClassificaor::LbpClassificaor()
 }
 
 
-LbpClassificaor::~LbpClassificaor()
+LbpClassificador::~LbpClassificador()
 {
 }
 
-void LbpClassificaor::Treina()
+void LbpClassificador::Treina()
 {
 	vector<Mat> caracteristicas;
 	vector<Mat> naoCaracteristicas;
@@ -21,12 +21,12 @@ void LbpClassificaor::Treina()
 	boost.Treina(caracteristicas, naoCaracteristicas);
 }
 
-int LbpClassificaor::CalculaPredicao(Mat &frame)
+int LbpClassificador::CalculaPredicao(Mat &frame)
 {
 	return boost.Predicao(frame);
 }
 
-//bool LbpClassificaor::AchouCaracteristica(Mat image, bool desenha)
+//bool LbpClassificador::AchouCaracteristica(Mat image, bool desenha)
 //{
 //	bool retorno = false;
 //	Mat ROI(Size(width, height), CV_32FC1, Scalar::all(0));
@@ -79,7 +79,7 @@ int LbpClassificaor::CalculaPredicao(Mat &frame)
 
 
 
-//void LbpClassificaor::RemoveReptidos()
+//void LbpClassificador::RemoveReptidos()
 //{
 //	unsigned i = 0;
 //
@@ -99,7 +99,7 @@ int LbpClassificaor::CalculaPredicao(Mat &frame)
 //	}	
 //}
 
-//void LbpClassificaor::DesenhaRetangulo(Mat &imagem)
+//void LbpClassificador::DesenhaRetangulo(Mat &imagem)
 //{
 //	Point center;
 //	int radius, scale = 0.264583333; // Converte para mm

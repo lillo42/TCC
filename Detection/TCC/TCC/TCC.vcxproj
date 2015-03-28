@@ -45,6 +45,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -80,7 +81,7 @@
     <ClInclude Include="Classificador.h" />
     <ClInclude Include="LBP.h" />
     <ClInclude Include="LbpBase.h" />
-    <ClInclude Include="LbpClassificaor.h" />
+    <ClInclude Include="LbpClassificador.h" />
     <ClInclude Include="LbpRN.h" />
     <ClInclude Include="Leitor.h" />
     <ClInclude Include="RedeNeural.h" />
