@@ -39,11 +39,11 @@ bool LbpBase::AchouCaracteristica(Mat image, bool desenha)
 	Size size(width, height);
 	Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
-	for (int i = 0; i <= image.rows - height; i++)
+	for (int i = 0; i <= image.rows - height; i+=height/2)
 	{
 		roi.y = i;
 
-		for (int j = 0; j <= image.cols - width; j++)
+		for (int j = 0; j <= image.cols - width; j+=width/2)
 		{
 			roi.x = j;
 

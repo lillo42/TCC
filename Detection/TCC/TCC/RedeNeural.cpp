@@ -4,6 +4,7 @@
 RedeNeural::RedeNeural()
 {
 	InicializaRede();
+	this->xml = "RN.xml";
 }
 
 
@@ -40,7 +41,7 @@ void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteris
 		if (i < caracteristica.size())
 			responses.at<int>(i,0) = 1;
 		else
-			responses.at<int>(i,0) = -1;
+			responses.at<int>(i,0) = 0;
 	}
 
 
@@ -56,7 +57,7 @@ void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteris
 
 	cout << "Comecou treino de verdade" << endl;
 	cout << "Treinando..." << endl;
-	mlp.train(trainData, responses, Mat(), Mat(), params);
+	mlp.train(trainData, trainData, Mat(), Mat(), params);
 	cout << "Salvando treino" << endl;
 	mlp.save(xml.c_str());
 }
