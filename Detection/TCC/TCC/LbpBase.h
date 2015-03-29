@@ -13,6 +13,7 @@
 
 #pragma region STD
 
+#include <iostream>
 #include <string>
 
 #pragma endregion

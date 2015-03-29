@@ -3,8 +3,8 @@
 
 LbpClassificador::LbpClassificador()
 {
-	height = 32;
-	width = 36;
+	height = 112;
+	width = 92;
 	this->valorAceitavelPredicao = 10;
 }
 

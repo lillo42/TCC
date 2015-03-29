@@ -28,7 +28,7 @@ public:
 	Classificador();
 	~Classificador();
 
-	void Treina(vector<Mat> caracteristica, vector<Mat> naoCarracteristica);
+	void Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica);
 
 	float Predicao(Mat image);
 

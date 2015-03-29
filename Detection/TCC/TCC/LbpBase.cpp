@@ -12,13 +12,18 @@ LbpBase::~LbpBase()
 
 void LbpBase::Treina(vector<Mat> &caracteristicas, vector<Mat> &naoCaracteristicas)
 {
+	cout << "Lendo imagens" << endl;
 	ler.LerImagemPasta(caracteristicas, pastaCaracateristica);
 	ler.LerImagemPasta(naoCaracteristicas, pastaNaoCaracateristica);
+	cout << "Terminou de ler" << endl;
 
 	if (caracteristicas.size() <= 0 || naoCaracteristicas.size() <= 0)
 		return;
 
+	cout << "Aplicando LBP caracteristica" << endl;
 	AplicaLBP(caracteristicas);
+
+	cout << "Aplicando LBP Nao caracteristica" << endl;
 	AplicaLBP(naoCaracteristicas);
 }
 
@@ -96,18 +101,21 @@ string LbpBase::GetNaoPastaCaracateristica()
 void LbpBase::AplicaLBP(vector<Mat>& aplica)
 {
 	vector<Mat> retorno;
-
+	cout << "Comencando a aplicar LBP" << endl;
 	for (unsigned int i = 0; i < aplica.size(); i++)
 	{
 		Mat image = aplica.at(i);
 		vector<Mat> temp = AplicaLBPImage(image);
+		cout << "LBP aplicado ";
 
-		for (unsigned i = 0; i < retorno.size(); i++)
-			retorno.push_back(retorno.at(i));
+		for (unsigned int j = 0; j < temp.size(); j++)
+			retorno.push_back(temp.at(j));
 
 	}
 
 	aplica.clear();
+	
+	cout << "Fim da aplicacao LBP" << endl;
 
 	for (unsigned int i = 0; i < retorno.size(); i++)
 		aplica.push_back(retorno.at(i));
@@ -125,11 +133,11 @@ vector<Mat> LbpBase::AplicaLBPImage(Mat &image)
 	Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
 	// convoluçao da imagens 32 x 36
-	for (int i = 0; i <= image.rows - height; i = i + 6)
+	for (int i = 0; i <= image.rows - height; i = i + height)
 	{
 		roi.y = i;
 
-		for (int j = 0; j <= image.cols - width; j = j + 6)
+		for (int j = 0; j <= image.cols - width; j = j + width)
 		{
 			roi.x = j;
 
