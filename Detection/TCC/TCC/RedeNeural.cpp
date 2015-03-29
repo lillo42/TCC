@@ -14,17 +14,26 @@ RedeNeural::~RedeNeural()
 
 void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica)
 {
+	cout << "Comecando o treino" << endl;
 	vector<vector <float> > features;
+	
+	cout << "Atribuindo valor de carateristica" << endl;
 	AtribuiValorAoVetor(features, caracteristica);
+
+	cout << "Atribuindo valor de Nao carateristica" << endl;
 	AtribuiValorAoVetor(features, naoCarracteristica);
 
 	if (features.size() < 1)
 		return;
 
+	cout << "Tamanho vetor de features: " << features.size() << endl;
+	cout << "Tamanho vetor de caracteristica: " << caracteristica.size() << endl;
+	cout << "Tamanho vetor de naoCaracteristica: " << naoCarracteristica.size() << endl;
 	Size dim(features[1].size(), features.size()); // (width, height)
 	Mat trainData(dim, CV_32FC1, Scalar::all(0));
 	Mat responses(Size(1, features.size()), CV_32SC1, Scalar::all(0));
 
+	cout << "Carregando valores" << endl;
 	// -------- - Carrega os vetores em cv::Mat para a fase de Treino--------------
 	for (int i = 0; i < features.size(); i++)
 	{
@@ -34,6 +43,9 @@ void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteris
 			responses.at<int>(i,0) = -1;
 	}
 
+
+	cout << "Terminou de carregar o vetor" << endl;
+	cout << "Carregando o treino" << endl;
 	for (int k = 0; k < trainData.rows; k++)
 		for (int l = 0; l < trainData.cols; l++)
 			trainData.at<float>(k, l) = features[k][l];
@@ -42,7 +54,10 @@ void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteris
 
 	features.clear();
 
+	cout << "Comecou treino de verdade" << endl;
+	cout << "Treinando..." << endl;
 	mlp.train(trainData, responses, Mat(), Mat(), params);
+	cout << "Salvando treino" << endl;
 	mlp.save(xml.c_str());
 }
 
