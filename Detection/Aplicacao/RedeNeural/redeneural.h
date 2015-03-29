@@ -19,7 +19,7 @@ using namespace std;
 //http://docs.opencv.org/modules/ml/doc/neural_networks.html
 //http://www.nithinrajs.in/ocr-artificial-neural-network-opencv-part-3final-preprocessing/
 
-class RedeNeural : public LbpBase
+class RedeNeural : public ClassificadorBase
 {
 public:
     RedeNeural();
