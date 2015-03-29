@@ -42,7 +42,8 @@ public:
 	~LbpClassificador();
 
 	void Treina();
-	bool AchouCaracteristica(Mat image, bool desenha);
+	void Load();
+	void TesteHardCode();
 
 protected:
 	int virtual CalculaPredicao(Mat &frame);

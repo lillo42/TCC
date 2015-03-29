@@ -29,14 +29,12 @@ public:
 	~Classificador();
 
 	void Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica);
-
+	void LoadBoost();
 	float Predicao(Mat image);
 
 private:
 	string xml;
 	CvBoost boost;
-
-	void LoadBoost();
 
 	void AtribuiValorAoVetor(vector<vector <float> > & vetor, vector<Mat>& local);
 };

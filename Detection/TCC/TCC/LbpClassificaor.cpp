@@ -21,6 +21,37 @@ void LbpClassificador::Treina()
 	boost.Treina(caracteristicas, naoCaracteristicas);
 }
 
+void LbpClassificador::Load()
+{
+	boost.LoadBoost();
+}
+
+void LbpClassificador::TesteHardCode()
+{
+	vector<Mat> teste;
+	string pasta = "C:/Users/Rafel/Documents/GitHub/TCC/Database/Teste";
+	string salva = "C:/Users/Rafel/Documents/GitHub/TCC/Database/Resultado/T";
+	string extensao = ".jpg";
+	ler.LerImagemPasta(teste, pasta);
+
+	for (int i = 0; i < teste.size(); i++)
+	{
+		cout << "Teste imagem: " << i << endl;
+		Mat frame = teste.at(i);
+		bool foi = AchouCaracteristica(frame, true);
+		if (foi)
+		{
+			cout << "Achou rosto na imagem: " << i << endl;
+			string local = pasta + to_string(i);// +extensao;
+			imwrite(local, frame);;
+		}
+		else
+		{
+			cout << "Nao achou rosto na imagem: " << i << endl;
+		}
+	}
+}
+
 int LbpClassificador::CalculaPredicao(Mat &frame)
 {
 	return boost.Predicao(frame);
