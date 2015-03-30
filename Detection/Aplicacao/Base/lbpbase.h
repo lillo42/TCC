@@ -1,4 +1,4 @@
-#ifndef LBPBASE_H
+﻿#ifndef LBPBASE_H
 #define LBPBASE_H
 
 #include <opencv/cv.h>
@@ -17,6 +17,10 @@
 
 using namespace cv;
 using namespace std;
+
+#define WIDTH 128 // cols
+#define HEIGHT 128 // rows
+
 
 struct detF {
     float predicao;     // Armazena a predicao, para comparare elimiar falsos positivos por dist�ncia
@@ -50,6 +54,8 @@ protected:
     int valorAceitavelPredicao;
 
     void AplicaLBP(vector<Mat>& aplica);
+    void AplicaLBPCaracteristica(vector<Mat> &aplica);
+
     vector<Mat> AplicaLBPImage(Mat &image);
 
     void virtual RemoveReptidos();

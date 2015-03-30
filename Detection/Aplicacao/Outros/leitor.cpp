@@ -15,10 +15,10 @@ void Leitor::LerImagemPasta(vector<Mat> &retorno, QString pasta)
     QDir diretorio(pasta);
     QStringList files = GetAllFilesNamesWithinFolder(diretorio);
     foreach (const QString file, files) {
-        Mat frame = imread(file.toStdString().c_str());
+        Mat frame = imread(file.toStdString().c_str(),CV_LOAD_IMAGE_GRAYSCALE);
 
         if (!frame.data){
-            IplImage* img = cvLoadImage(file.toStdString().c_str());
+            IplImage* img = cvLoadImage(file.toStdString().c_str(),CV_LOAD_IMAGE_GRAYSCALE);
             frame = Mat(img);
         }
 

@@ -104,6 +104,46 @@ void LbpBase::AplicaLBP(vector<Mat> &aplica)
         aplica.push_back(retorno.at(i));
 }
 
+void LbpBase::AplicaLBPCaracteristica(vector<Mat> &aplica)
+{
+    vector<Mat> retorno;
+    cout << "Comencando a aplicar LBP" << endl;
+    for (unsigned int i = 0; i < aplica.size(); i++)
+    {
+        Mat image = aplica.at(i);
+
+        if(image.cols > 128 || image.rows > 128)
+            continue;
+
+        Mat mascara = Mat::zeros(128,128,0);
+        int coluna = 64 - (image.cols / 2), linhas = 64 - (image.rows / 2);
+
+        for(int i = 0;i < image.cols;i++)
+        {
+            int linhas2 = linhas;
+            for(int j =0;j < image.rows;j++)
+            {
+                image.col(i).row(j).copyTo(mascara.col(coluna).row(linhas2));
+                linhas2++;
+            }
+            coluna++;
+        }
+
+        vector<Mat> temp = AplicaLBPImage(mascara);
+        cout << "LBP aplicado ";
+
+        for (unsigned int j = 0; j < temp.size(); j++)
+            retorno.push_back(temp.at(j));
+    }
+
+    aplica.clear();
+
+    cout << "Fim da aplicacao LBP" << endl;
+
+    for (unsigned int i = 0; i < retorno.size(); i++)
+        aplica.push_back(retorno.at(i));
+}
+
 vector<Mat> LbpBase::AplicaLBPImage(Mat &image)
 {
     vector<Mat> temp;
@@ -116,18 +156,18 @@ vector<Mat> LbpBase::AplicaLBPImage(Mat &image)
     Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
     // convolusao da imagens 32 x 36
-    for (int i = 0; i <= image.rows - height; i = i + height)
+    for (int i = 0; i <= image.rows - HEIGHT; i = i + 6)
     {
         roi.y = i;
 
-        for (int j = 0; j <= image.cols - width; j = j + width)
+        for (int j = 0; j <= image.cols - WIDTH; j = j + 6)
         {
             roi.x = j;
 
             image.operator ()(Rect(roi.x, roi.y, width, height)).convertTo(ROI, CV_32FC1, 1, 0);
 
-            resize(ROI, ROI_TRUE, size);
             lbp.AplicaLBP(ROI_TRUE, LBP, 1, 8);
+
             temp.push_back(LBP);
         }
     }
@@ -186,7 +226,7 @@ void LbpBase::Treina(vector<Mat> &caracteristicas, vector<Mat> &naoCaracteristic
         return;
 
     cout << "Aplicando LBP caracteristica" << endl;
-    AplicaLBP(caracteristicas);
+    AplicaLBPCaracteristica(caracteristicas);
 
     cout << "Aplicando LBP Nao caracteristica" << endl;
     AplicaLBP(naoCaracteristicas);
