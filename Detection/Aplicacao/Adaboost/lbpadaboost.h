@@ -19,6 +19,7 @@ public:
     ~LbpAdaBoost();
 
     void Treina();
+    void TesteHardCode();
 
 protected:
     int CalculaPredicao(Mat &frame);

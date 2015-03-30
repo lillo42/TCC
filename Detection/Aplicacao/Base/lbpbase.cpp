@@ -21,11 +21,12 @@ bool LbpBase::AchouCaracteristica(Mat &image, bool desenha)
     Size size(width, height);
     Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
-    for (int i = 0; i <= image.rows - height; i++)
+    // convolusao da imagens 32 x 36
+    for (int i = 0; i <= image.rows - height; i+=height/2)
     {
         roi.y = i;
 
-        for (int j = 0; j <= image.cols - width; j++)
+        for (int j = 0; j <= image.cols - width; j+=width/2)
         {
             roi.x = j;
 
@@ -114,7 +115,7 @@ vector<Mat> LbpBase::AplicaLBPImage(Mat &image)
     Size size(width, height);
     Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
-    // convolu�ao da imagens 32 x 36
+    // convolusao da imagens 32 x 36
     for (int i = 0; i <= image.rows - height; i = i + height)
     {
         roi.y = i;
@@ -189,6 +190,5 @@ void LbpBase::Treina(vector<Mat> &caracteristicas, vector<Mat> &naoCaracteristic
 
     cout << "Aplicando LBP Nao caracteristica" << endl;
     AplicaLBP(naoCaracteristicas);
-
 }
 
