@@ -17,10 +17,10 @@ void Leitor::LerImagemPasta(vector<Mat>& retorno, string pasta)
 	{
 		string caminhoCompleto = pasta + "/" + file.at(i);
 
-		Mat image = imread(caminhoCompleto.c_str());
+		Mat image = imread(caminhoCompleto.c_str(),CV_LOAD_IMAGE_GRAYSCALE);
 		if (!image.data)
 		{
-			IplImage* img = cvLoadImage(caminhoCompleto.c_str());
+			IplImage* img = cvLoadImage(caminhoCompleto.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
 			image = Mat(img);
 		}
 		if (image.data)

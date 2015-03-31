@@ -68,7 +68,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Classificador.cpp" />
+    <ClCompile Include="Adaboost.cpp" />
+    <ClCompile Include="ClassificadorBase.cpp" />
     <ClCompile Include="LBP.cpp" />
     <ClCompile Include="LbpBase.cpp" />
     <ClCompile Include="LbpClassificaor.cpp" />
@@ -78,10 +79,11 @@
     <ClCompile Include="RedeNeural.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Classificador.h" />
+    <ClInclude Include="Adaboost.h" />
+    <ClInclude Include="ClassificadorBase.h" />
     <ClInclude Include="LBP.h" />
     <ClInclude Include="LbpBase.h" />
-    <ClInclude Include="LbpClassificador.h" />
+    <ClInclude Include="LbpAdaBoost.h" />
     <ClInclude Include="LbpRN.h" />
     <ClInclude Include="Leitor.h" />
     <ClInclude Include="RedeNeural.h" />

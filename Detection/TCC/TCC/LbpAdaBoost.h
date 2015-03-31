@@ -21,7 +21,7 @@
 
 #include "Leitor.h"
 #include "LBP.h"
-#include "Classificador.h"
+#include "Adaboost.h"
 #include "LbpBase.h"
 
 #pragma endregion
@@ -35,14 +35,13 @@ using namespace std;
 //	Point ponto;        // Localizacao a Face
 //} typedef DetectFeatures;
 
-class LbpClassificador : public LbpBase
+class LbpAdaBoost : public LbpBase
 {
 public:
-	LbpClassificador();
-	~LbpClassificador();
+	LbpAdaBoost();
+	~LbpAdaBoost();
 
 	void Treina();
-	void Load();
 	void TesteHardCode();
 
 protected:
@@ -50,7 +49,7 @@ protected:
 
 
 private:
-	Classificador boost;
+	Adaboost boost;
 	
 };
 
