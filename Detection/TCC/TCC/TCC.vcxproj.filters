@@ -21,9 +21,6 @@
     <ClCompile Include="LBP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Classificador.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LbpClassificaor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,12 +36,15 @@
     <ClCompile Include="LbpRN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClassificadorBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Adaboost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LBP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classificador.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Leitor.h">
@@ -59,7 +59,13 @@
     <ClInclude Include="LbpRN.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LbpClassificador.h">
+    <ClInclude Include="ClassificadorBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Adaboost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LbpAdaBoost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

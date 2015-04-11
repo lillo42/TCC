@@ -18,24 +18,25 @@
 
 #pragma endregion
 
+#include "ClassificadorBase.h"
+
 
 using namespace cv;
 using namespace std;
 
-class Classificador
+class Adaboost: public ClassificadorBase
 {
 public:
-	Classificador();
-	~Classificador();
+	Adaboost();
+	~Adaboost();
 
 	void Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica);
-	void LoadBoost();
+
 	float Predicao(Mat image);
 
-private:
-	string xml;
-	CvBoost boost;
+	void LoadBoost();
 
-	void AtribuiValorAoVetor(vector<vector <float> > & vetor, vector<Mat>& local);
+private:
+	CvBoost boost;
 };
 

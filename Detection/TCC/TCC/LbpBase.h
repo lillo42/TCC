@@ -29,6 +29,9 @@
 using namespace cv;
 using namespace std;
 
+#define WIDTH 128 // cols
+#define HEIGHT 128 // rows
+
 
 struct detF {
 	float predicao;     // Armazena a predicao, para comparare elimiar falsos positivos por distância
@@ -62,6 +65,8 @@ protected:
 	int valorAceitavelPredicao;
 
 	void AplicaLBP(vector<Mat>& aplica);
+	void AplicaLBPCaracteristica(vector<Mat> &aplica);
+
 	vector<Mat> AplicaLBPImage(Mat &image);
 
 	void virtual RemoveReptidos();

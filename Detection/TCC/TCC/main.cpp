@@ -1,20 +1,20 @@
 #include <iostream>
-#include "LbpClassificador.h"
+#include "LbpAdaBoost.h"
 #include "LbpRN.h"
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
-	LbpClassificador c;
+	LbpAdaBoost c;
 	c.SetPastaCaracateristica("C:/Users/Rafel/Documents/GitHub/TCC/Database/Pessoa");
 	c.SetNaoPastaCaracateristica("C:/Users/Rafel/Documents/GitHub/TCC/Database/NPessoa");
 
-	//cout << "Começou o Treino Adaboost" << endl;
-	//c.Treina();
+	cout << "Começou o Treino Adaboost" << endl;
+	c.Treina();
+	cout << "Terminou o treino Adaboost" << endl;
 
-	//cout << "Terminou o treino Adaboost" << endl;
-	c.Load();
+	//c.Load();
 
 	cout << "Teste Adaboost" << endl;
 	
