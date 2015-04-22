@@ -20,12 +20,17 @@ void LbpAdaBoost::Treina()
     boost.Treina(caracteristicas, naoCaracteristicas);
 }
 
+void LbpAdaBoost::Load()
+{
+    boost.LoadBoost();
+}
+
 void LbpAdaBoost::TesteHardCode()
 {
     vector<Mat> teste;
     QString pasta = "/home/tcc/Documents/GitHub/TCC/Database/Teste";
     QString salva = "/home/tcc/Documents/GitHub/TCC/Database/Resultado/T";
-    QString extensao = ".jpg";
+    QString extensao = ".png";
     ler.LerImagemPasta(teste, pasta);
 
     for (int i = 0; i < teste.size(); i++)

@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <time.h> /* clock_t, clock, CLOCKS_PER_SEC */
 
 #include <QString>
 
@@ -18,8 +19,11 @@
 using namespace cv;
 using namespace std;
 
-#define WIDTH 128 // cols
-#define HEIGHT 128 // rows
+#define WIDTH 25 // cols
+#define HEIGHT 30 // rows
+
+#define WIDTH_ANDA 6 //cols
+#define HEIGHT_ANDA 6 //rows
 
 
 struct detF {
@@ -33,8 +37,17 @@ public:
     LbpBase();
     ~LbpBase();
 
+    void virtual Treina()
+    {
 
-    bool AchouCaracteristica(Mat &image, bool desenha);
+    }
+
+    void virtual Load()
+    {
+
+    }
+
+    bool virtual AchouCaracteristica(Mat &image, bool desenha);
 
     void SetPastaCaracateristica(QString pastaCaracateristica);
     QString GetPastaCaracateristica();
@@ -54,6 +67,7 @@ protected:
     int valorAceitavelPredicao;
 
     void AplicaLBP(vector<Mat>& aplica);
+    void AplicaLBP(Mat &frame, Mat &retorno);
     void AplicaLBPCaracteristica(vector<Mat> &aplica);
 
     vector<Mat> AplicaLBPImage(Mat &image);

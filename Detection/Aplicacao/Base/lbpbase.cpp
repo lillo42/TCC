@@ -13,26 +13,23 @@ LbpBase::~LbpBase()
 bool LbpBase::AchouCaracteristica(Mat &image, bool desenha)
 {
     bool retorno = false;
-    Mat ROI(Size(width, height), CV_32FC1, Scalar::all(0));
+    Mat ROI(Size(WIDTH,HEIGHT), CV_32FC1, Scalar::all(0));
     Mat LBP;
     DetectFeatures df;
     features.clear();
     Point roi;  // Armazena as coordenadas das Features
-    Size size(width, height);
-    Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
 
     // convolusao da imagens 32 x 36
-    for (int i = 0; i <= image.rows - height; i+=height/2)
+    for (int i = 0; i <= image.rows - HEIGHT; i++)
     {
         roi.y = i;
 
-        for (int j = 0; j <= image.cols - width; j+=width/2)
+        for (int j = 0; j <= image.cols - WIDTH; j++)
         {
             roi.x = j;
 
-            image.operator ()(Rect(roi.x, roi.y, width, height)).convertTo(ROI, CV_32FC1, 1, 0);
-            resize(ROI, ROI_TRUE, size);
-            lbp.AplicaLBP(ROI_TRUE, LBP, 1, 8);
+            image.operator ()(Rect(roi.x, roi.y, HEIGHT, WIDTH)).convertTo(ROI, CV_32FC1, 1, 0);
+            lbp.AplicaLBP(ROI, LBP, 1, 8);
 
             Mat temp;
 
@@ -84,13 +81,13 @@ QString LbpBase::GetNaoPastaCaracateristica()
 void LbpBase::AplicaLBP(vector<Mat> &aplica)
 {
     vector<Mat> retorno;
-    cout << "Comencando a aplicar LBP" << endl;
-    for (unsigned int i = 0; i < aplica.size(); i++)
+    clock_t tempoInicial = clock();
+    cout << "Extraindo Features de Amostras Negativas " << endl;
+
+    for (unsigned int i = 0; i < aplica.size() / 2; i++)
     {
         Mat image = aplica.at(i);
         vector<Mat> temp = AplicaLBPImage(image);
-        cout << "LBP aplicado ";
-
         for (unsigned int j = 0; j < temp.size(); j++)
             retorno.push_back(temp.at(j));
 
@@ -98,39 +95,46 @@ void LbpBase::AplicaLBP(vector<Mat> &aplica)
 
     aplica.clear();
 
-    cout << "Fim da aplicacao LBP" << endl;
-
     for (unsigned int i = 0; i < retorno.size(); i++)
         aplica.push_back(retorno.at(i));
+    clock_t tempoFinal = clock();
+    cout << "Tempo Extracao de Caracteristicas: " << ((tempoFinal - tempoInicial) / CLOCKS_PER_SEC )  << endl;
+}
+
+void LbpBase::AplicaLBP(Mat &frame, Mat &retorno)
+{
+    lbp.AplicaLBP(frame,retorno,1,8);
 }
 
 void LbpBase::AplicaLBPCaracteristica(vector<Mat> &aplica)
 {
     vector<Mat> retorno;
-    cout << "Comencando a aplicar LBP" << endl;
+
+    clock_t tempoInicial = clock();
+    cout << "Extraindo Features de Amostras Positivas ." << endl;
+
     for (unsigned int i = 0; i < aplica.size(); i++)
     {
         Mat image = aplica.at(i);
 
-        if(image.cols > 128 || image.rows > 128)
-            continue;
+//        if(image.cols > WIDTH || image.rows > HEIGHT)
+//            continue;
 
-        Mat mascara = Mat::zeros(128,128,0);
-        int coluna = 64 - (image.cols / 2), linhas = 64 - (image.rows / 2);
+//        Mat mascara = Mat::zeros(WIDTH,HEIGHT,0);
+//        int coluna = (WIDTH/2) - (image.cols / 2), linhas = (HEIGHT/2) - (image.rows / 2);
 
-        for(int i = 0;i < image.cols;i++)
-        {
-            int linhas2 = linhas;
-            for(int j =0;j < image.rows;j++)
-            {
-                image.col(i).row(j).copyTo(mascara.col(coluna).row(linhas2));
-                linhas2++;
-            }
-            coluna++;
-        }
+//        for(int i = 0;i < image.cols;i++)
+//        {
+//            int linhas2 = linhas;
+//            for(int j =0;j < image.rows;j++)
+//            {
+//                image.col(i).row(j).copyTo(mascara.col(coluna).row(linhas2));
+//                linhas2++;
+//            }
+//            coluna++;
+//        }
 
-        vector<Mat> temp = AplicaLBPImage(mascara);
-        cout << "LBP aplicado ";
+        vector<Mat> temp = AplicaLBPImage(image);
 
         for (unsigned int j = 0; j < temp.size(); j++)
             retorno.push_back(temp.at(j));
@@ -138,35 +142,33 @@ void LbpBase::AplicaLBPCaracteristica(vector<Mat> &aplica)
 
     aplica.clear();
 
-    cout << "Fim da aplicacao LBP" << endl;
-
     for (unsigned int i = 0; i < retorno.size(); i++)
         aplica.push_back(retorno.at(i));
+    clock_t tempoFinal = clock();
+    cout << "Tempo Extracao de Caracteristicas: " << ((tempoFinal - tempoInicial)/ CLOCKS_PER_SEC) << endl;
 }
 
 vector<Mat> LbpBase::AplicaLBPImage(Mat &image)
 {
     vector<Mat> temp;
 
-    Mat ROI(Size(width, height), CV_32FC1, Scalar::all(0));
+    Mat ROI(Size(WIDTH, HEIGHT), CV_32FC1, Scalar::all(0));
     Mat LBP;
     Point roi; // Armazena as coordenadas das Features
 
-    Size size(width, height);
-    Mat ROI_TRUE = Mat::zeros(size, CV_32FC1);
-
     // convolusao da imagens 32 x 36
-    for (int i = 0; i <= image.rows - HEIGHT; i = i + 6)
+    for (int i = 0; i <= image.rows - HEIGHT; i = i + HEIGHT_ANDA)
     {
         roi.y = i;
 
-        for (int j = 0; j <= image.cols - WIDTH; j = j + 6)
+        for (int j = 0; j <= image.cols - WIDTH; j = j + WIDTH_ANDA)
         {
+
             roi.x = j;
 
-            image.operator ()(Rect(roi.x, roi.y, width, height)).convertTo(ROI, CV_32FC1, 1, 0);
+            image.operator ()(Rect(roi.x, roi.y, HEIGHT, WIDTH)).convertTo(ROI, CV_32FC1, 1, 0);
 
-            lbp.AplicaLBP(ROI_TRUE, LBP, 1, 8);
+            lbp.AplicaLBP(ROI, LBP, 1, 8);
 
             temp.push_back(LBP);
         }

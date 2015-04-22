@@ -19,6 +19,7 @@ public:
     ~LbpAdaBoost();
 
     void Treina();
+    void Load();
     void TesteHardCode();
 
 protected:

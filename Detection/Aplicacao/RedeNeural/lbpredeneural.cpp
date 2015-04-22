@@ -20,6 +20,11 @@ void LbpRedeNeural::Treina()
     rn.Treina(caracteristicas, naoCaracteristicas);
 }
 
+void LbpRedeNeural::Load()
+{
+    rn.LoadBoost();
+}
+
 int LbpRedeNeural::CalculaPredicao(Mat &frame)
 {
     return rn.Predicao(frame);

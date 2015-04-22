@@ -15,11 +15,16 @@ void RedeNeural::Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteris
 {
     Mat  trainData, responses;
     ClassificadorBase::TreinoBase(caracteristica,naoCarracteristica,trainData,responses);
-    cout << "Comecou treino de verdade" << endl;
+
     cout << "Treinando..." << endl;
     mlp.train(trainData, responses, Mat(), Mat(), params);
     cout << "Salvando treino" << endl;
     mlp.save(xml.toStdString().c_str());
+}
+
+void RedeNeural::LoadBoost()
+{
+    mlp.load(xml.toStdString().c_str());
 }
 
 float RedeNeural::Predicao(Mat image)
@@ -64,12 +69,12 @@ void RedeNeural::CriaRede()
 
 Mat RedeNeural::CriaLayes()
 {
-    Mat layers = cv::Mat(4, 1, CV_32SC1);
+    Mat layers = cv::Mat(1, 1, CV_32SC1);
 
     layers.row(0) = cv::Scalar(2);
-    layers.row(1) = cv::Scalar(10);
-    layers.row(2) = cv::Scalar(15);
-    layers.row(3) = cv::Scalar(1);
+//    layers.row(1) = cv::Scalar(10);
+//    layers.row(2) = cv::Scalar(15);
+//    layers.row(3) = cv::Scalar(1);
 
     // define the structure for the neural network (MLP)
     // The neural network has 3 layers.

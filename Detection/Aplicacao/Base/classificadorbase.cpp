@@ -28,13 +28,8 @@ void ClassificadorBase::LoadBoost()
 
 void ClassificadorBase::TreinoBase(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica, Mat &trainData, Mat &responses)
 {
-    cout << "Comecando o treino" <<endl;
     vector<vector <float> > features;
-
-    cout << "Atribuindo valor de carateristica" << endl;
     AtribuiValorAoVetor(features, caracteristica);
-
-    cout << "Atribuindo valor de Nao carateristica" << endl;
     AtribuiValorAoVetor(features, naoCarracteristica);
 
     if (features.size() < 1)
@@ -59,8 +54,6 @@ void ClassificadorBase::TreinoBase(vector<Mat> &caracteristica, vector<Mat> &nao
             responses.at<int>(i,0) = -1;
     }
 
-    cout << "Terminou de carregar o vetor" << endl;
-    cout << "Carregando o treino" << endl;
     for (int k = 0; k < trainData.rows; k++)
         for (int l = 0; l < trainData.cols; l++)
             trainData.at<float>(k, l) = features[k][l];

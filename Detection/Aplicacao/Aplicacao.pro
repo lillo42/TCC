@@ -25,7 +25,11 @@ SOURCES += main.cpp \
     Outros/lbp.cpp \
     Base/classificadorbase.cpp \
     Adaboost/lbpadaboost.cpp \
-    RedeNeural/lbpredeneural.cpp
+    RedeNeural/lbpredeneural.cpp \
+    Cascade/cascade.cpp \
+    Cascade/lbpcascade.cpp \
+    SVM/lbpsvm.cpp \
+    SVM/svmc.cpp
 
 HEADERS += \
     Adaboost/adaboost.h \
@@ -35,4 +39,8 @@ HEADERS += \
     Outros/lbp.h \
     Base/classificadorbase.h \
     Adaboost/lbpadaboost.h \
-    RedeNeural/lbpredeneural.h
+    RedeNeural/lbpredeneural.h \
+    Cascade/cascade.h \
+    Cascade/lbpcascade.h \
+    SVM/lbpsvm.h \
+    SVM/svmc.h

@@ -26,6 +26,7 @@ public:
     ~RedeNeural();
 
     void Treina(vector<Mat> &caracteristica, vector<Mat> &naoCarracteristica);
+    void LoadBoost();
     float Predicao(Mat image);
 
 private:

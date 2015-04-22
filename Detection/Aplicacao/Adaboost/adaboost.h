@@ -11,6 +11,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 using namespace cv;
 using namespace std;

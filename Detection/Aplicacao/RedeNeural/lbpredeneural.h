@@ -17,6 +17,7 @@ public:
     ~LbpRedeNeural();
 
     void Treina();
+    void Load();
 
 
 protected:

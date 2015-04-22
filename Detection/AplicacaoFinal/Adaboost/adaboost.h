@@ -2,11 +2,23 @@
 #define ADABOOST_H
 
 
-class AdaBoost
+#include "Base/classificadorbase.h"
+
+class AdaBoost : public ClassificadorBase
 {
 public:
     AdaBoost();
     ~AdaBoost();
+
+    void Treino();
+    int Teste(Mat &Query);
+    void Load();
+
+protected:
+    void Treino(int quantidadePositiva);
+
+private:
+     CvBoost boost;
 };
 
 #endif // ADABOOST_H
