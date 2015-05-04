@@ -3,6 +3,10 @@
 
 
 #include "Base/classificadorbase.h"
+#include <stdio.h>
+
+
+using namespace std;
 
 class AdaBoost : public ClassificadorBase
 {

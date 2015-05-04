@@ -31,6 +31,8 @@ using namespace std;
 #define RAIO 1
 #define VIZINHO 8
 
+#define TIPO_MAT CV_32F
+
 
 struct detF {
     float predicao;     // Armazena a predicao, para comparare elimiar falsos positivos por distancia
@@ -60,6 +62,8 @@ public:
     void SetPastaSalva(QString pastaSalva);
     QString GetPastaSalva();
 
+    virtual void TesteTreino();
+
 protected:
     QString pastaCaracateristica;
     QString pastaNaoCaracateristica;
@@ -71,9 +75,9 @@ protected:
     vector<vector <float> > Features;
     vector<DetectFace> faces;
 
-    void extraiCaracteristicas( Mat &Query );
+    void extraiCaracteristicas(Mat &Query );
 
-    virtual void Treino(int quantidadePositiva);
+    virtual void Treino(int quantidadePositiva);    
 
     const string currentDateTime();
 

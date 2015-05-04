@@ -22,7 +22,7 @@ void AdaBoost::Treino()
     cout << "Extraindo Features de Amostras Positivas ." << endl;
 
     // Extrai caracteristicas Faces
-    for (int i = 0; i < caracteristicas.size();i++)
+    for (size_t i = 0; i < caracteristicas.size();i++)
     {
         Mat image = caracteristicas.at(i);
         extraiCaracteristicas(image);
@@ -31,7 +31,7 @@ void AdaBoost::Treino()
     cout  << "Extraindo Features de Amostras Negativas ";
 
     // Extrai caracteristicas Nao Faces
-    for (int i = 0; i < naoCaracteristicas.size() ;i++)
+    for (size_t i = 0; i < naoCaracteristicas.size() ;i++)
     {
         Mat image = naoCaracteristicas.at(i);
         extraiCaracteristicas( image );
@@ -66,7 +66,6 @@ int AdaBoost::Teste(Mat &Query)
     Mat ROI(Size(WIDTH,HEIGHT),CV_32FC1, Scalar::all(0));
     Mat LBP;
     Point roi;  // Armazena as coordenadas das Features
-    int raio=1; int vizinhaca=8;
     DetectFace df;
     faces.clear();
     int retorno = 0;

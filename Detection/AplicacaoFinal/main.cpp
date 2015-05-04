@@ -37,8 +37,8 @@ void Treino(ClassificadorBase &c)
 
 void TesteHardCode(ClassificadorBase &c)
 {
-    c.SetPastaTeste("/home/tcc/Documents/DataBase/T");
+    c.SetPastaTeste("/home/tcc/Documents/DataBase/TT");
     c.SetPastaSalva("/home/tcc/Documents/DataBase/R");
     c.Load();
-    c.TesteHardCode();
+    c.TesteTreino();
 }

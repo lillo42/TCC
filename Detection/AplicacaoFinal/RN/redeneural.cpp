@@ -28,6 +28,7 @@ void RedeNeural::Treino()
         Mat image = caracteristicas.at(i);
         extraiCaracteristicas(image);
     }
+    valorTestePessoas = caracteristicas.size() * 0.1;
 
     cout  << "Extraindo Features de Amostras Negativas ";
 
@@ -38,6 +39,8 @@ void RedeNeural::Treino()
         extraiCaracteristicas( image );
         cout << ".";
     }
+
+    valorTestePessoas = naoCaracteristicas.size() * 0.1;
 
     int positivo = caracteristicas.size();
 
@@ -64,7 +67,7 @@ void RedeNeural::Treino()
 
 int RedeNeural::Teste(Mat &Query)
 {
-    Mat ROI(Size(WIDTH,HEIGHT),CV_32FC1, Scalar::all(0));
+    Mat ROI(Size(WIDTH,HEIGHT),TIPO_MAT, Scalar::all(0));
     Mat LBP;
     Point roi;  // Armazena as coordenadas das Features
     DetectFace df;
@@ -77,47 +80,160 @@ int RedeNeural::Teste(Mat &Query)
         for(int j =0; j <= Query.cols - WIDTH ; j++) {
             roi.x = j;
 
-            Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,CV_32FC1,1,0);
+            Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,TIPO_MAT,1,0);
 
 
             lbp.Aplica(ROI,LBP,RAIO,VIZINHO);
 
-            Mat temp;
+            vector<float> temp;
 
             MatConstIterator_<float> it = LBP.begin<float>(), it_end = LBP.end<float>();
 
             for(; it != it_end; ++it) temp.push_back(*it);
 
-            Mat test;
-            InverteLinhaColuna(temp,test);
+            Mat test(1,temp.size(),TIPO_MAT);
 
-            Mat response(1,2,CV_32F);
+            for(int k = 0; k < test.rows; k++)
+                for(int l = 0; l < test.cols; l++)
+                    test.at<float>(k,l) = temp[l];
 
-            cout << "Layers count: " <<  mlp.get_layer_count() << endl;
-            cout << "Layers size: " <<  mlp.get_layer_sizes() << endl;
-            cout << "Teste Cols: " <<  test.cols << endl;
+            Mat response(1,2,TIPO_MAT);
 
-            if(test.cols != 644)
+
+            float PREDICAO = mlp.predict(test,response);
+
+            int maxIndex = 0;
+            float value=0.0f;
+            float maxValue = response.at<float>(0,0);
+
+            for(int index=0; index < 2; index++)
             {
-                cout << "Temos um problema aqui!!" << endl;
-                return -1;
+                value = response.at<float>(0,index);
+                if(value > maxValue)
+                {
+                    maxValue = value;
+                    maxIndex = index;
+                }
             }
 
+            //maxIndex is the predicted class.
+            if(PREDICAO == 0)
+                PREDICAO = maxValue;
 
-            float PREDICAO = mlp.predict(test,response);// boost.predict( temp, Mat(),Range::all(),false,true);
-
-            //QString nome = QString("ROI00%1-%2.jpg").arg(i).arg(j);
-
-            if ( PREDICAO > 12 ) {
+            if ( PREDICAO == 1.0f ) {
                 df.predicao = PREDICAO; df.ponto = roi;
                 faces.push_back( df );
                 retorno++;
+            }
+
+            if(maxIndex == 0)
+            {
+                cout << "This is face \t" ;
             }
 
         }
 
     }
     return retorno;
+}
+
+void RedeNeural::TesteTreino()
+{
+    vector<Mat> images;
+    LerImagemPasta(images,pastaTeste);
+
+    if(valorTesteNPessoas == 0)
+        valorTesteNPessoas = 900;
+    if(valorTestePessoas == 0)
+        valorTestePessoas = 39;
+
+    int total = valorTestePessoas + valorTesteNPessoas;
+
+    Mat resultado(images.size(),CLASSES,TIPO_MAT);
+
+    for(int i = 0;i < total;i++)
+    {
+        if(i < valorTestePessoas)
+            resultado.at<float>(i,0) = 1;
+        else
+            resultado.at<float>(i,1) = 1;
+    }
+
+    int acertos = 0;
+    int erros =  0;
+
+    cout << "Comecando o Teste" << endl;
+    for (int c = 0; c<images.size();c++)   // Teste com amostra de Faces nas Amostras
+    {
+        Mat Query = images.at(c);
+        Mat ROI(Size(WIDTH,HEIGHT),TIPO_MAT, Scalar::all(0));
+        Mat LBP;
+        Point roi;
+
+        // convoluçao para gerar uma imagem de 320 x 240 px em NAO faces de 25 x 30 px
+        for(int i = 0; i <= Query.rows - HEIGHT ; i++)
+        {
+            roi.y = i;
+
+            for(int j =0; j <= Query.cols - WIDTH ; j++)
+            {
+                roi.x = j;
+
+                Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,TIPO_MAT,1,0);
+
+
+                lbp.Aplica(ROI,LBP,RAIO,VIZINHO);
+
+                vector<float> temp;
+
+                MatConstIterator_<float> it = LBP.begin<float>(), it_end = LBP.end<float>();
+
+                for(; it != it_end; ++it) temp.push_back(*it);
+
+                Mat test(1,temp.size(),TIPO_MAT);
+
+                for(int k = 0; k < test.rows; k++)
+                    for(int l = 0; l < test.cols; l++)
+                        test.at<float>(k,l) = temp[l];
+
+                Mat response(1,CLASSES,TIPO_MAT);
+
+
+                mlp.predict(test,response);
+
+                int maxIndex = 0;
+                float value=0.0f;
+                float maxValue = response.at<float>(0,0);
+
+                for(int index=1; index < CLASSES; index++)
+                {
+                    value = response.at<float>(0,index);
+                    if(value > maxValue)
+                    {
+                        maxValue = value;
+                        maxIndex = index;
+                    }
+                }
+
+                printf("Testing Sample %i -> class result (digit %d)\n", c, maxIndex);
+
+                //maxIndex is the predicted class.
+                //cout << "Imagens:" << c << " maxIndex:" << maxIndex << " valor no vetor: " << resultado.at<float>(i,maxIndex) << endl;
+                if(resultado.at<float>(c,maxIndex) != 1.0f)
+                {
+                    erros++;
+                    cout << "Imagens:" << c << " maxIndex:" << maxIndex << " valor no vetor: " << resultado.at<float>(i,maxIndex) << endl;
+                }
+                else
+                    acertos++;
+            }
+
+        }
+    }
+
+    cout << "\nResults on the testing dataset\n" << endl;
+    cout << "\tCorrect classification:" << acertos << endl;
+    cout <<"\tWrong classifications:" << erros << endl;
 }
 
 
@@ -133,19 +249,19 @@ void RedeNeural::Treino(int quantidadePositiva)
 //    Mat trainData( Features.size(),2, CV_32FC1);
 //    Mat responses( Features.size(),1, CV_32FC1);
 
-    Size DIM(Features[1].size(),Features.size()); // (width, height)
+    Size DIM(Features[1].size(),Features.size());
 
-    Mat trainData( DIM, CV_32FC1, Scalar::all(0) );
-    Mat responses( Size(1, Features.size()), CV_32SC1, Scalar::all(0) );
+    Mat trainData( DIM, TIPO_MAT, Scalar::all(0) );
+    Mat responses( Size(2, Features.size()), TIPO_MAT, Scalar::all(0) );
 
     //  --------- Carrega os vetores em cv::Mat para a fase de Treino --------------
 
-    for(std::vector<int>::size_type i = 0; i < Features.size(); i++)
+    for(int i = 0; i < Features.size(); i++)
     {
         if ( i < quantidadePositiva )
-            responses.at<int>(i,0) = 1;
+            responses.at<float>(i,0) = 1.0;
         else
-            responses.at<int>(i,0) = -1;
+            responses.at<float>(i,1) = 1.0;
     }
 
 
@@ -157,7 +273,7 @@ void RedeNeural::Treino(int quantidadePositiva)
 
     Features.clear();
 
-    if ( responses.depth() == CV_32FC1 && trainData.depth() == CV_32FC1 )
+   if ( responses.depth() == TIPO_MAT && trainData.depth() == TIPO_MAT )
     {
         // As amostras estao armazenadas em linhas ...
         //boost.train(trainData, CV_ROW_SAMPLE, responses); //, Mat(), Mat(), Mat(), Mat(), BoostParams(CvBoost::REAL, 100, 0.95, 5, false, 0));
@@ -187,49 +303,30 @@ void RedeNeural::SetTrainsParams()
 
 void RedeNeural::SetTermCriteria()
 {
-    criteria.max_iter = 10000;
-    criteria.epsilon = 0.00001f;
-    criteria.type = CV_TERMCRIT_ITER | CV_TERMCRIT_EPS;
+    criteria.max_iter = 1000;
+    criteria.epsilon = 0.01;
+    criteria.type = CV_TERMCRIT_ITER + CV_TERMCRIT_EPS;
 }
 
 void RedeNeural::CriaRede()
 {
     Mat layers = CriaLayes();
-    int activateFunc = CvANN_MLP::SIGMOID_SYM;//CvANN_MLP::IDENTITY; //CvANN_MLP::SIGMOID_SYM CvANN_MLP::GAUSSIAN
+    int activateFunc = CvANN_MLP::SIGMOID_SYM; //CvANN_MLP::IDENTITY; // CvANN_MLP::GAUSSIAN
     mlp.create(layers,activateFunc);
 }
 
 Mat RedeNeural::CriaLayes()
 {
-//    Mat layers = cv::Mat(4, 1, CV_32SC1);
-
-//    layers.row(0) = Scalar(644);
-//    layers.row(1) = Scalar(10);
-//    layers.row(2) = Scalar(15);
-//    layers.row(3) = Scalar(2);
-
-
     // define the structure for the neural network (MLP)
     // The neural network has 3 layers.
     // - one input node per attribute in a sample so 256 input nodes
     // - 16 hidden nodes
     // - 10 output node, one for each class.
 
-    Mat layers(3, 1, CV_32SC1);
-    layers.at<int>(0, 0) = 644;//input layer
+    Mat layers(3, 1, CV_32S);
+    layers.at<int>(0, 0) = ATTRIBUTES;//input layer
     layers.at<int>(1, 0) = 16;//hidden layer
-    layers.at<int>(2, 0) = 2;//output layer
+    layers.at<int>(2, 0) = CLASSES;//output layer
     return layers;
 }
 
-void RedeNeural::InverteLinhaColuna(Mat &original, Mat &retorno)
-{
-    retorno = Mat(2,original.rows,CV_32F);
-    for(int i = 0;i < original.rows;i++)
-    {
-        for(int j = 0; j < original.cols;j++)
-        {
-            original.row(i).col(j).copyTo(retorno.row(j).col(i));
-        }
-    }
-}

@@ -95,7 +95,7 @@ QString ClassificadorBase::GetPastaSalva()
 
 void ClassificadorBase::extraiCaracteristicas(Mat &Query)
 {
-    Mat ROI(Size(WIDTH,HEIGHT),CV_32FC1, Scalar::all(0));
+    Mat ROI(Size(WIDTH,HEIGHT),TIPO_MAT, Scalar::all(0));
     Mat LBP;
     Point roi; // Armazena as coordenadas das Features
 
@@ -106,7 +106,7 @@ void ClassificadorBase::extraiCaracteristicas(Mat &Query)
         for(int j = 0; j <= Query.cols - WIDTH ; j = j + WIDTH_ANDA) {
             roi.x = j;
 
-            Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,CV_32FC1,1,0);
+            Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,TIPO_MAT,1,0);
 
             lbp.Aplica(ROI,LBP,RAIO,VIZINHO);
 
@@ -123,6 +123,11 @@ void ClassificadorBase::extraiCaracteristicas(Mat &Query)
 }
 
 void ClassificadorBase::Treino(int quantidadePositiva)
+{
+
+}
+
+void ClassificadorBase::TesteTreino()
 {
 
 }

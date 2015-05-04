@@ -5,6 +5,10 @@
 #include "Base/classificadorbase.h"
 #include <opencv2/ml/ml.hpp>
 
+#define ATTRIBUTES 644              //Number of pixels per sample.16X16
+#define CLASSES 2                   //Number of distinct labels.
+
+
 //http://www.nithinrajs.in/ocr-artificial-neural-network-opencv-part-3final-preprocessing/
 class RedeNeural : public ClassificadorBase
 {
@@ -14,6 +18,7 @@ public:
 
     void Treino();
     int Teste(Mat &Query);
+    void TesteTreino();
     void Load();
 
 protected:
@@ -24,6 +29,8 @@ private:
     CvANN_MLP_TrainParams params;
     CvTermCriteria criteria;
 
+    vector< vector<float> > testRN;
+
     void InicializaRede();
     void SetTrainsParams();
     void SetTermCriteria();
@@ -31,7 +38,9 @@ private:
     void CriaRede();
     Mat CriaLayes();
 
-   void InverteLinhaColuna(Mat &original, Mat &retorno);
+    int valorTestePessoas;
+
+    int valorTesteNPessoas;
 
 };
 
