@@ -20,10 +20,14 @@ SOURCES += main.cpp \
     LBP/lbp.cpp \
     Base/classificadorbase.cpp \
     Adaboost/adaboost.cpp \
-    RN/redeneural.cpp
+    RN/redeneural.cpp \
+    ArquivoTxt/arquivotexto.cpp \
+    ArquivoTxt/eredeneural.cpp
 
 HEADERS += \
     LBP/lbp.h \
     Base/classificadorbase.h \
     Adaboost/adaboost.h \
-    RN/redeneural.h
+    RN/redeneural.h \
+    ArquivoTxt/arquivotexto.h \
+    ArquivoTxt/eredeneural.h

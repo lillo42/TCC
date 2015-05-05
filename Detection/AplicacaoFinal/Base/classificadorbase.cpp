@@ -42,6 +42,16 @@ void ClassificadorBase::TesteHardCode()
     cout << "Acabou o Teste" << endl;
 }
 
+void ClassificadorBase::TesteHardCodeMonitorado(QString nomeArquivo)
+{
+
+}
+
+void ClassificadorBase::CarregaConfiguracao(QString arquivoConfiguracao)
+{
+
+}
+
 int ClassificadorBase::Teste(Mat &Query)
 {
 
@@ -86,6 +96,9 @@ QString ClassificadorBase::GetPastaTeste()
 void ClassificadorBase::SetPastaSalva(QString pastaSalva)
 {
     this->pastaSalva = pastaSalva;
+    QDir dir(pastaSalva);
+    if(!dir.exists())
+        dir.mkpath(pastaSalva);
 }
 
 QString ClassificadorBase::GetPastaSalva()

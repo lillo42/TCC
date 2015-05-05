@@ -7,7 +7,10 @@
 using namespace std;
 
 void Treino(ClassificadorBase&);
+void TesteTreino(ClassificadorBase&);
 void TesteHardCode(ClassificadorBase&);
+void TreinoMonitorado(ClassificadorBase&);
+void Carrega(ClassificadorBase&);
 
 int main(int argc, char *argv[])
 {
@@ -20,8 +23,9 @@ int main(int argc, char *argv[])
 
      cout << "Rede Neural" << endl;
      RedeNeural rn;
-     Treino(rn);
-     TesteHardCode(rn);
+     //Treino(rn);
+     Carrega(rn);
+     TreinoMonitorado(rn);
 
     return a.exec();
 }
@@ -35,10 +39,31 @@ void Treino(ClassificadorBase &c)
     c.Treino();
 }
 
-void TesteHardCode(ClassificadorBase &c)
+void TesteTreino(ClassificadorBase &c)
 {
     c.SetPastaTeste("/home/tcc/Documents/DataBase/TT");
     c.SetPastaSalva("/home/tcc/Documents/DataBase/R");
     c.Load();
     c.TesteTreino();
+}
+
+void TesteHardCode(ClassificadorBase &c)
+{
+    c.SetPastaTeste("/home/tcc/Documents/DataBase/T");
+    c.SetPastaSalva("/home/tcc/Documents/DataBase/R");
+    c.Load();
+    c.TesteHardCode();
+}
+
+void TreinoMonitorado(ClassificadorBase &c)
+{
+    c.SetPastaTeste("/home/tcc/Documents/DataBase/T");
+    c.SetPastaSalva("/home/tcc/Documents/DataBase/RC");
+    //c.Load();
+    //c.TesteHardCodeMonitorado();
+}
+
+void Carrega(ClassificadorBase &c)
+{
+
 }

@@ -58,11 +58,15 @@ void RedeNeural::Treino()
 
     clock_t tempoFinal = clock();
 
+    tempoTotalTreino = ((tempoFinal - tempoInicial1) / CLOCKS_PER_SEC );
+
     cout << "Tempo Extracao de Caracteristicas -> " << ((tempoInicial1 - tempoInicial) / CLOCKS_PER_SEC ) << " segundos" << endl;
-    cout << "Tempo Treino -> " << ((tempoFinal - tempoInicial1) / CLOCKS_PER_SEC ) << " segundos" << endl;
+    cout << "Tempo Treino -> " <<  tempoTotalTreino << " segundos" << endl;
     cout << "Tempo Total -> " << ((tempoFinal - tempoInicial) / CLOCKS_PER_SEC )  << " segundos" << endl;
     cout << "Fim do Treino -> " << currentDateTime() << endl;
     cout << "Treino Finalizado ! " << endl;
+
+    PreencheParametro();
 }
 
 int RedeNeural::Teste(Mat &Query)
@@ -135,6 +139,34 @@ int RedeNeural::Teste(Mat &Query)
 
     }
     return retorno;
+}
+
+void RedeNeural::TesteHardCodeMonitorado(QString nomeArquivo)
+{
+    vector<Mat> images;
+    LerImagemPasta(images,pastaTeste);
+
+    cout << "Comecando o Teste" << endl;
+    for (int i = 0; i<images.size();i++)   // Teste com amostra de Faces nas Amostras
+    {
+        clock_t tempoInicial = clock();
+
+        Mat imgQN = images.at(i);
+        int r = Teste( imgQN );
+        eliminaRepetidos(r);
+        salva.imagens.append(r);
+        cout << "\t pos = " << r << "\t neg = " << endl;// << busca2.IMAGENSNEGATIVAS << endl;
+        QString nome = QString("/p%1.jpg").arg(i+1);
+        nome = pastaSalva + nome;
+        desenhaRetangulo(imgQN);
+        imwrite(nome.toStdString(),imgQN);
+
+        clock_t tempoFinal = clock();
+
+        cout << "Tempo total de reconhecimento: " << ((tempoFinal - tempoInicial) / CLOCKS_PER_SEC ) << " segundos"<< endl;
+    }
+
+    cout << "Acabou o Teste" << endl;
 }
 
 void RedeNeural::TesteTreino()
@@ -236,6 +268,10 @@ void RedeNeural::TesteTreino()
     cout <<"\tWrong classifications:" << erros << endl;
 }
 
+void RedeNeural::CarregaConfiguracao(QString arquivoConfiguracao)
+{
+
+}
 
 void RedeNeural::Load()
 {
@@ -283,7 +319,32 @@ void RedeNeural::Treino(int quantidadePositiva)
         mlp.save(xml.toStdString().c_str());
     }
     else
-        cout << "Os dados para treino ou resposta estão em formatos errado !";
+       cout << "Os dados para treino ou resposta estão em formatos errado !";
+}
+
+void RedeNeural::PreencheParametro()
+{
+    if(params.train_method == CvANN_MLP_TrainParams::BACKPROP)
+    {
+        salva.metodo = "BP";
+        salva.bp_dw_scale = params.bp_dw_scale;
+        salva.bp_moment_scale == params.bp_moment_scale;
+    }
+    else
+    {
+        salva.metodo = "RP";
+        salva.rp_dw0 = params.rp_dw0;
+        salva.rp_dw_max = params.rp_dw_max;
+        salva.rp_dw_min = params.rp_dw_min;
+        salva.rp_dw_minus = params.rp_dw_minus;
+        salva.rp_dw_plus = params.rp_dw_plus;
+    }
+
+    salva.max_iter = criteria.max_iter;
+    salva.epsilon = criteria.epsilon;
+    salva.criteriaType = criteria.type;
+
+    salva.funcaoAtivacao = activateFunc;
 }
 
 void RedeNeural::InicializaRede()
@@ -311,7 +372,7 @@ void RedeNeural::SetTermCriteria()
 void RedeNeural::CriaRede()
 {
     Mat layers = CriaLayes();
-    int activateFunc = CvANN_MLP::SIGMOID_SYM; //CvANN_MLP::IDENTITY; // CvANN_MLP::GAUSSIAN
+    activateFunc = CvANN_MLP::SIGMOID_SYM; //CvANN_MLP::IDENTITY; // CvANN_MLP::GAUSSIAN
     mlp.create(layers,activateFunc);
 }
 
@@ -328,5 +389,9 @@ Mat RedeNeural::CriaLayes()
     layers.at<int>(1, 0) = 16;//hidden layer
     layers.at<int>(2, 0) = CLASSES;//output layer
     return layers;
+
+    QList<int> camadas;
+    camadas.append(16);
+    salva.camdaOculta = camadas;
 }
 

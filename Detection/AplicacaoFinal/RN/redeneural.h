@@ -4,6 +4,8 @@
 
 #include "Base/classificadorbase.h"
 #include <opencv2/ml/ml.hpp>
+#include "ArquivoTxt/arquivotexto.h"
+#include "ArquivoTxt/eredeneural.h"
 
 #define ATTRIBUTES 644              //Number of pixels per sample.16X16
 #define CLASSES 2                   //Number of distinct labels.
@@ -18,7 +20,9 @@ public:
 
     void Treino();
     int Teste(Mat &Query);
+    void TesteHardCodeMonitorado(QString nomeArquivo);
     void TesteTreino();
+    void CarregaConfiguracao(QString arquivoConfiguracao);
     void Load();
 
 protected:
@@ -31,6 +35,8 @@ private:
 
     vector< vector<float> > testRN;
 
+    void PreencheParametro();
+
     void InicializaRede();
     void SetTrainsParams();
     void SetTermCriteria();
@@ -39,8 +45,12 @@ private:
     Mat CriaLayes();
 
     int valorTestePessoas;
-
     int valorTesteNPessoas;
+
+    int tempoTotalTreino;
+    int activateFunc;
+
+    ERedeNeural salva;
 
 };
 

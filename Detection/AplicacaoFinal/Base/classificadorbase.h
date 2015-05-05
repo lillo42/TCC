@@ -47,6 +47,8 @@ public:
 
     virtual void Treino();
     virtual void TesteHardCode();
+    virtual void TesteHardCodeMonitorado(QString nomeArquivo);
+    virtual void CarregaConfiguracao(QString arquivoConfiguracao);
     virtual int Teste(Mat &Query);
     virtual void Load();
 
