@@ -6,7 +6,7 @@
 #include <opencv2/ml/ml.hpp>
 
 
-
+//#define ATTRIBUTES 644
 #define CLASSES 2                   //Number of distinct labels.
 
 
@@ -24,6 +24,7 @@ protected:
 
  	 float CalculaPredict(Mat &image);
 	 bool ValorAceitavel(float predict);
+     void Salva();
 
 private:
     CvANN_MLP mlp;

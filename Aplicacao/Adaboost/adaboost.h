@@ -21,6 +21,7 @@ protected:
 
  	 float CalculaPredict(Mat &image);
 	 bool ValorAceitavel(float predict);
+     void Salva();
 
 private:
      CvBoost boost;

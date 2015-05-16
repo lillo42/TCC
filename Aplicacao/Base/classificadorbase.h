@@ -23,13 +23,11 @@
 using namespace cv;
 using namespace std;
 
+//#define WIDTH  25 // cols 25
+//#define HEIGHT  30 // rows 30
 
-#define WIDTH 25 // cols
-#define HEIGHT 30 // rows
-
-#define WIDTH_ANDA 6 //cols
-#define HEIGHT_ANDA 6 //rows
-
+//#define WIDTH_ANDA 6 //cols 6
+//#define HEIGHT_ANDA 6  //rows 6
 #define RAIO 1
 #define VIZINHO 8
 
@@ -71,23 +69,31 @@ protected:
     QString pastaSalva;
     QString xml;
 
+    int WIDTH; // cols 25
+    int HEIGHT; // rows 30
+
+    int WIDTH_ANDA; //cols 6
+    int HEIGHT_ANDA; //rows 6
+
     Lbp lbp;
     vector<vector <float> > Features;
     vector<DetectFace> faces;
 
     void extraiCaracteristicas(Mat &Query );
 
-	 virtual void Teste(Mat &query, int &positivo, int &negativo);
+    virtual void Teste(Mat &query, int &positivo, int &negativo);
 
     virtual void Treino(int quantidadePositiva);    
 
-	 virtual float CalculaPredict(Mat &image);
-	 virtual bool ValorAceitavel(float predict);
+    virtual float CalculaPredict(Mat &image);
+    virtual bool ValorAceitavel(float predict);
 
     const string currentDateTime();
 
     void eliminaRepetidos(int &quantidade);
     void desenhaRetangulo(Mat &imagem);
+
+    virtual void Salva();
 
     void LerImagemPasta(vector<Mat>& retorno, QString pasta);
     void GetAllFilesNamesWithinFolder(QDir dir, QStringList &retorno);

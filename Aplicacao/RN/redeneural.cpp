@@ -3,6 +3,7 @@
 RedeNeural::RedeNeural()
 {
     xml = "RedeNeural.xml";
+    //InicializaRede();
 }
 
 RedeNeural::~RedeNeural()
@@ -12,6 +13,7 @@ RedeNeural::~RedeNeural()
 
 void RedeNeural::Load()
 {
+    ClassificadorBase::Load();
     mlp.load(xml.toStdString().c_str());
 }
 
@@ -101,7 +103,7 @@ void RedeNeural::Treino(int quantidadePositiva)
         int flag = 0;//CvANN_MLP::NO_OUTPUT_SCALE;
         mlp.train(trainData,responses, Mat(),Mat(),params,flag);
         //boost.save( xml.toStdString().c_str() );
-        mlp.save(xml.toStdString().c_str());
+        Salva();
     }
     else
        cout << "Os dados para treino ou resposta estão em formatos errado !";
@@ -148,5 +150,11 @@ float RedeNeural::CalculaPredict(Mat &image)
 	 
 bool RedeNeural::ValorAceitavel(float predict)
 {
-     return predict == 0;
+    return predict == 0;
+}
+
+void RedeNeural::Salva()
+{
+    ClassificadorBase::Salva();
+    mlp.save(xml.toStdString().c_str());
 }

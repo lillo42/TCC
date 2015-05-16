@@ -2,7 +2,11 @@
 
 ClassificadorBase::ClassificadorBase()
 {
+     WIDTH = 25; // cols 25
+     HEIGHT = 30; // rows 30
 
+     WIDTH_ANDA = 6; //cols 6
+     HEIGHT_ANDA =  6; //rows 6
 }
 
 ClassificadorBase::~ClassificadorBase()
@@ -98,6 +102,21 @@ void ClassificadorBase::desenhaRetangulo(Mat &imagem)
         circle( imagem, center, radius,  CV_RGB(0,255,0), 2);
 
     }
+}
+
+void ClassificadorBase::Salva()
+{
+    QFile file("config.txt");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+             return;
+    QTextStream out(&file);
+    out << WIDTH << endl;
+    out << HEIGHT << endl;
+
+    out << WIDTH_ANDA<< endl;
+    out << HEIGHT_ANDA << endl;
+    file.close();
+
 }
 
 const string ClassificadorBase::currentDateTime()
@@ -198,7 +217,26 @@ void ClassificadorBase::TesteTreino()
 
 void ClassificadorBase::Load()
 {
+    QFile file("config.txt");
+    if (!file.open(QIODevice::ReadOnly))
+             return;
+    QTextStream in(&file);
+    int i =0;
+    while(!in.atEnd()) {
+        QString line = in.readLine();
 
+        if(i == 0)
+            WIDTH  = line.toInt();
+        else if(i == 1)
+            HEIGHT  = line.toInt();
+        else if(i == 2)
+            WIDTH_ANDA  = line.toInt();
+        else
+            HEIGHT_ANDA  = line.toInt();
+        i++;
+    }
+
+//    file.close();
 }
 
 void ClassificadorBase::Treino()

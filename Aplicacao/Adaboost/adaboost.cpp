@@ -12,7 +12,8 @@ AdaBoost::~AdaBoost()
 
 void AdaBoost::Load()
 {
-  boost.load(xml.toStdString().c_str());
+    ClassificadorBase::Load();
+    boost.load(xml.toStdString().c_str());
 }
 
 void AdaBoost::Treino(int quantidadePositiva)
@@ -44,7 +45,7 @@ void AdaBoost::Treino(int quantidadePositiva)
     {
         // As amostras estao armazenadas em linhas ...
         boost.train(trainData, CV_ROW_SAMPLE, responses); //, Mat(), Mat(), Mat(), Mat(), BoostParams(CvBoost::REAL, 100, 0.95, 5, false, 0));
-        boost.save( xml.toStdString().c_str() );
+        Salva();
     }
     else
         cout << "Os dados para treino ou resposta estão em formatos errado !";
@@ -65,5 +66,11 @@ float AdaBoost::CalculaPredict(Mat &image)
 	 
 bool AdaBoost::ValorAceitavel(float predict)
 {
- 	 return predict > 12;
+    return predict > 12;
+}
+
+void AdaBoost::Salva()
+{
+    ClassificadorBase::Salva();
+    boost.save( xml.toStdString().c_str() );
 }
