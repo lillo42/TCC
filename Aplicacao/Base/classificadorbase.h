@@ -47,7 +47,7 @@ public:
 
     virtual void Treino();
     virtual void TesteHardCode();
-    virtual void TesteBasico();
+    virtual void TesteTreino();
     virtual void Load();
 
     void SetPastaCaracateristica(QString pastaCaracateristica);

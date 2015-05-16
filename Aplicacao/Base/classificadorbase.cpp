@@ -189,14 +189,17 @@ void ClassificadorBase::TesteTreino()
 
         //maxIndex is the predicted class.
         //cout << "Imagens:" << c << " maxIndex:" << maxIndex << " valor no vetor: " << resultado.at<float>(i,maxIndex) << endl;
-        if(acerto == 1 && resultado.at<float>(i) == -1 )
+        if(acerto == 1 && resultado[i] == -1 )
         {
           erros++;
-          cout << "Imagens:" << c << " maxIndex:" << maxIndex << " valor no vetor: " << resultado.at<float>(i,maxIndex) << endl;
+          cout << "Imagens:" << i  << " valor no vetor: " << resultado[i] << endl;
         }
-        else
-          acertos++;
-    }
+     }
+}
+
+void ClassificadorBase::Load()
+{
+
 }
 
 void ClassificadorBase::Treino()
@@ -263,7 +266,7 @@ void ClassificadorBase::TesteHardCode()
         Mat imgQN = images.at(i);
         int positivo = 0, negativo = 0;
         Teste( imgQN, positivo, negativo );
-        eliminaRepetidos(r);
+        eliminaRepetidos(positivo);
         cout << "\t pos = " << positivo << "\t neg = " << negativo << endl;// << busca2.IMAGENSNEGATIVAS << endl;
         QString nome = QString("/p%1.jpg").arg(i+1);
         nome = pastaSalva + nome;
@@ -291,13 +294,13 @@ void ClassificadorBase::Teste(Mat &query, int &positivo, int &negativo)
     DetectFace df;
     faces.clear();
     // convoluçao para gerar uma imagem de 320 x 240 px em NAO faces de 25 x 30 px
-    for(int i = 0; i <= Query.rows - HEIGHT ; i++) {
+    for(int i = 0; i <= query.rows - HEIGHT ; i++) {
         roi.y = i;
 
-        for(int j =0; j <= Query.cols - WIDTH ; j++) {
+        for(int j =0; j <= query.cols - WIDTH ; j++) {
             roi.x = j;
 
-            Query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,CV_32FC1,1,0);
+            query.operator ()(Rect(roi.x,roi.y,WIDTH,HEIGHT)).convertTo(ROI,CV_32FC1,1,0);
 
 
             lbp.Aplica(ROI,LBP,RAIO,VIZINHO);
@@ -320,10 +323,11 @@ void ClassificadorBase::Teste(Mat &query, int &positivo, int &negativo)
 
 float ClassificadorBase::CalculaPredict(Mat &image)
 {
-  return 0;
+    return image.rows;
 }
 
-bool ValorAceitavel(float predict)
+bool ClassificadorBase::ValorAceitavel(float predict)
 {
- 	return  predict != 0;
+    return  predict != 0;
 }
+

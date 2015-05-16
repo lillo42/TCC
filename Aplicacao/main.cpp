@@ -9,23 +9,17 @@ using namespace std;
 void Treino(ClassificadorBase&);
 void TesteTreino(ClassificadorBase&);
 void TesteHardCode(ClassificadorBase&);
-void TreinoMonitorado(ClassificadorBase&);
-void Carrega(ClassificadorBase&);
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-//    cout << "Adaboost" << endl;
-//    AdaBoost ad;
-//    Treino(ad);
-//    TesteHardCode(ad);
+    RedeNeural c;
+    //AdaBoost c;
 
-     cout << "Rede Neural" << endl;
-     RedeNeural rn;
-     //Treino(rn);
-     Carrega(rn);
-     TreinoMonitorado(rn);
+    Treino(c);
+    TesteTreino(c);
+    TesteHardCode(c);
 
     return a.exec();
 }

@@ -24,10 +24,16 @@ void RedeNeural::InicializaRede()
 }
 
 void RedeNeural::SetTrainsParams()
-{
-    params.train_method = CvANN_MLP_TrainParams::BACKPROP;//CvANN_MLP_TrainParams::RPROP;
-    params.bp_dw_scale = 0.1;//0.05f;
-    params.bp_moment_scale = 0.1;//0.05f;
+{   
+    params.train_method = CvANN_MLP_TrainParams::RPROP; //CvANN_MLP_TrainParams::BACKPROP;
+//  params.bp_dw_scale = 0.05;//0.05f;
+//  params.bp_moment_scale = 0.05;//0.05f;
+
+    params.rp_dw0 = 0.01;
+    params.rp_dw_plus = 1.2;
+    params.rp_dw_minus = 0.05;
+    params.rp_dw_min = FLT_EPSILON;
+    params.rp_dw_max = 500;
     params.term_crit = criteria;
 }
 
@@ -53,10 +59,11 @@ Mat RedeNeural::CriaLayes()
     // - 16 hidden nodes
     // - 10 output node, one for each class.
 
-    Mat layers(3, 1, CV_32S);
+    Mat layers(4, 1, CV_32S);
     layers.at<int>(0, 0) = ATTRIBUTES;//input layer
-    layers.at<int>(1, 0) = 16;//hidden layer
-    layers.at<int>(2, 0) = CLASSES;//output layer
+    layers.at<int>(1, 0) = 50;//hidden layer
+    layers.at<int>(2, 0) = 50;//hidden layer
+    layers.at<int>(3, 0) = CLASSES;//output layer
     return layers;
 }
 
@@ -98,6 +105,7 @@ void RedeNeural::Treino(int quantidadePositiva)
     else
        cout << "Os dados para treino ou resposta estão em formatos errado !";
 }
+
 	 
  	 
 float RedeNeural::CalculaPredict(Mat &image)
@@ -115,7 +123,7 @@ float RedeNeural::CalculaPredict(Mat &image)
     for(int l = 0; l < test.cols; l++)
     test.at<float>(k,l) = temp[l];
 
-    Mat response(1,CLASSES,TIPO_MAT);
+  Mat response(1,CLASSES,TIPO_MAT);
 
 
   mlp.predict(test,response);
@@ -139,5 +147,5 @@ float RedeNeural::CalculaPredict(Mat &image)
 	 
 bool RedeNeural::ValorAceitavel(float predict)
 {
- 	 return predict == 1;
+     return predict == 0;
 }

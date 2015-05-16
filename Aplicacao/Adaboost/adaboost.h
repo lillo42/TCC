@@ -18,7 +18,6 @@ public:
 
 protected:
     void Treino(int quantidadePositiva);
-	 void Teste(Mat &query, int &positivo, int &negativo);
 
  	 float CalculaPredict(Mat &image);
 	 bool ValorAceitavel(float predict);
