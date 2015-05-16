@@ -53,7 +53,8 @@ QString ClassificadorBase::GetPastaSalva()
 void ClassificadorBase::LerImagemPasta(vector<Mat> &retorno, QString pasta)
 {
     QDir diretorio(pasta);
-    QStringList files = GetAllFilesNamesWithinFolder(diretorio);
+    QStringList files;
+    GetAllFilesNamesWithinFolder(diretorio, files);
     foreach (const QString file, files) {
         Mat frame = imread(file.toStdString().c_str(),CV_LOAD_IMAGE_GRAYSCALE);
 
@@ -69,16 +70,14 @@ void ClassificadorBase::LerImagemPasta(vector<Mat> &retorno, QString pasta)
 
 }
 
-QStringList ClassificadorBase::GetAllFilesNamesWithinFolder(QDir dir)
+void ClassificadorBase::GetAllFilesNamesWithinFolder(QDir dir, QStringList &retorno)
 {
-    QStringList retorno;
+    QDirIterator dirItere(dir.absolutePath(),QDir::Files,QDirIterator::Subdirectories);
 
-    QFileInfoList fileList = dir.entryInfoList();
-
-    foreach (const QFileInfo &info, fileList)
-        retorno.append(QString("%1/%2").arg(dir.path()).arg(info.fileName()));
-
-    return retorno;
+    while (dirItere.hasNext()) {
+        retorno.append(dirItere.filePath());
+        dirItere.next();
+    }
 
 }
 

@@ -15,6 +15,8 @@
 
 #include <QString>
 #include <QDir>
+#include <QDirIterator>
+#include <QDebug>
 
 #include "LBP/lbp.h"
 
@@ -88,7 +90,7 @@ protected:
     void desenhaRetangulo(Mat &imagem);
 
     void LerImagemPasta(vector<Mat>& retorno, QString pasta);
-    QStringList GetAllFilesNamesWithinFolder(QDir dir);
+    void GetAllFilesNamesWithinFolder(QDir dir, QStringList &retorno);
 };
 
 #endif // CLASSIFICADORBASE_H

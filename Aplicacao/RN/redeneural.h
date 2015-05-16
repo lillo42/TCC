@@ -6,7 +6,7 @@
 #include <opencv2/ml/ml.hpp>
 
 
-#define ATTRIBUTES 644              //Number of pixels per sample.16X16
+
 #define CLASSES 2                   //Number of distinct labels.
 
 
@@ -29,6 +29,8 @@ private:
     CvANN_MLP mlp;
     CvANN_MLP_TrainParams params;
     CvTermCriteria criteria;
+
+    int ATTRIBUTES;             //Number of pixels per sample.16X16;
 
     int activateFunc;
 

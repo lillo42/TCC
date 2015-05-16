@@ -3,7 +3,6 @@
 RedeNeural::RedeNeural()
 {
     xml = "RedeNeural.xml";
-    InicializaRede();
 }
 
 RedeNeural::~RedeNeural()
@@ -91,6 +90,8 @@ void RedeNeural::Treino(int quantidadePositiva)
 
     // -----------------------------------------------------------------------------
 
+    ATTRIBUTES = Features[1].size();
+    InicializaRede();
     Features.clear();
 
    if ( responses.depth() == TIPO_MAT && trainData.depth() == TIPO_MAT )
